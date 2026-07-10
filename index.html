@@ -206,14 +206,20 @@
 
 
 <script>
-
+  // 1. Standard event listener for modern engines
   window.addEventListener("flutter-first-frame", function () {
-
-   document.getElementById("loading").style.display="none";
-
+    var loader = document.getElementById("loading");
+    if (loader) loader.style.display = "none";
   });
 
+  // 2. Fallback safety timeout for older iOS WebKit engines (iPhone 11, etc.)
+  setTimeout(function() {
+    var loader = document.getElementById("loading");
+    if (loader && loader.style.display !== "none") {
+      console.warn("Forcing loader removal via WebKit timeout safety hook.");
+      loader.style.display = "none";
+    }
+  }, 4000); // 4 seconds threshold frame window
 </script>
-
 
 </body></html>
